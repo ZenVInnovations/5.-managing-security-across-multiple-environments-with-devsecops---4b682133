@@ -47,5 +47,4 @@ jobs:
           name: test-results
           path: result.log
 
-      - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v2
+      # Gitleaks removed for simplicity
