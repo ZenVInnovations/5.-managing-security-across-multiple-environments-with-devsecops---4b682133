@@ -1,0 +1,35 @@
+name: DevSecOps CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - '**'
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: docker build -t myapp:latest .
+
+      - name: Run SAST with Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: 'p/ci'
+
+      - name: Run Trivy vulnerability scan on Docker image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'myapp:latest'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
