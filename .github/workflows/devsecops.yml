@@ -26,9 +26,9 @@ jobs:
       - name: Run Bandit (Security Scan)
         run: |
           bandit -r . -f json -o bandit_report.json
-              - name: Upload Bandit Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: bandit-report
-        path: bandit_report.json
 
+      - name: Upload Bandit Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: bandit-report
+          path: bandit_report.json
